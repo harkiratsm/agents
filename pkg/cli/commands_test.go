@@ -17,6 +17,7 @@ limitations under the License.
 package cli
 
 import (
+	"context"
 	"fmt"
 	"testing"
 
@@ -163,7 +164,7 @@ func TestCreateSuoRunFailsWithInvalidConfig(t *testing.T) {
 		selector: "app=my-app",
 	}
 
-	err := opts.run([]string{"main=nginx:2.0"})
+	err := opts.run(context.Background(), []string{"main=nginx:2.0"})
 	assert.Error(t, err)
 	assert.Contains(t, err.Error(), "failed to build kubeconfig")
 }
@@ -182,7 +183,7 @@ func TestSetImageRunFailsWithInvalidConfig(t *testing.T) {
 		},
 	}
 
-	err := opts.run("test-sbs", []string{"main=nginx:2.0"})
+	err := opts.run(context.Background(), "test-sbs", []string{"main=nginx:2.0"})
 	assert.Error(t, err)
 	assert.Contains(t, err.Error(), "failed to build kubeconfig")
 }
@@ -202,7 +203,7 @@ func TestRestartRunFailsWithInvalidConfig(t *testing.T) {
 		containers: []string{"main"},
 	}
 
-	err := opts.run("test-sbx")
+	err := opts.run(context.Background(), "test-sbx")
 	assert.Error(t, err)
 	assert.Contains(t, err.Error(), "failed to build kubeconfig")
 }
@@ -222,7 +223,7 @@ func TestScaleRunFailsWithInvalidConfig(t *testing.T) {
 		replicas: 5,
 	}
 
-	err := opts.run("test-sbs")
+	err := opts.run(context.Background(), "test-sbs")
 	assert.Error(t, err)
 	assert.Contains(t, err.Error(), "failed to build kubeconfig")
 }
@@ -235,7 +236,7 @@ func TestCreateSuoRunEmptySelectorFails(t *testing.T) {
 		selector: "",
 	}
 
-	err := opts.run([]string{"main=nginx:2.0"})
+	err := opts.run(context.Background(), []string{"main=nginx:2.0"})
 	assert.Error(t, err)
 	assert.Contains(t, err.Error(), "--selector (-l) is required")
 }
