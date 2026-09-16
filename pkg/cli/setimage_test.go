@@ -742,6 +742,7 @@ func TestWaitForSandboxSetUpdateCanceled(t *testing.T) {
 	err := waitForSandboxSetUpdate(cs.ApiV1alpha1(), ctx, "default", "test-sbs-cancel", globalOpts)
 	assert.Error(t, err)
 	assert.ErrorIs(t, err, context.Canceled)
+	assert.Contains(t, err.Error(), "update canceled")
 	assert.NotContains(t, err.Error(), "timed out")
 }
 
